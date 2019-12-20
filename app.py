@@ -30,6 +30,8 @@ all_countries_regions = data['country'].unique()
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.COSMO])
 
+server = app.server
+
 app.layout = html.Div([
     dbc.Row([
         html.Br(), html.Br(),
@@ -210,4 +212,4 @@ def plot_world_map(year, metric):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server()
