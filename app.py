@@ -21,9 +21,6 @@ metric_translation = {
     'migration_perc': 'Net migrants (% of population)',
     'pop_density': 'Population density (inhabitants per kilometer square)'
 }
-tick_suffixes = {'net_migration': '',
-                 'migration_perc': '%',
-                 'pop_density': '+'}
 
 all_countries_regions = data['country'].unique()
 
@@ -188,8 +185,8 @@ def plot_world_map(year, metric):
                                       metric_translation[metric] + ': ' +
                                       hover_metric_str + hover_suffix),
                        colorbar={'lenmode': 'fraction', 'len': 0.5, 'x': -0.07,
-                                 # 'ticksuffix': '+' if metric == 'pop_density' else '',
-                                 'ticksuffix': tick_suffixes[metric],
+                                 'ticksuffix': '+' if metric == 'pop_density' else '',
+                                 'tickformat': '%' if metric == 'migration_perc' else '',
                                  'showticksuffix': 'last' if metric == 'pop_density' else 'all' },
                        locationmode='ISO-3')
     fig.layout.geo = {
