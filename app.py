@@ -166,9 +166,8 @@ def plot_top_countries(year, metric):
 def plot_world_map(year, metric):
     if not metric:
         raise PreventUpdate
-    df = data_countries[data_countries[metric].notna()].query('year == @year')
+    df = data_countries[data_countries[metric].notna()].sort_values(metric).query('year == @year')
     zeroidx = df[metric].sort_values().lt(0).sum()
-    midpoint = 1 - (zeroidx / len(df[metric]))
     fig = go.Figure()
     hover_suffix = ('%' if metric == 'migration_perc' else '')
     hover_metric_str = (df[metric].mul(100).round(2).astype(str)
@@ -177,9 +176,7 @@ def plot_world_map(year, metric):
     fig.add_choropleth(locations=df['iso3c'],
                        z=df[metric].clip(1, 700) if metric == 'pop_density' else df[metric],
                        name='',
-                       colorscale=[[0, 'rgba(214, 39, 40, 0.85)'],
-                                   [midpoint, 'rgba(255, 255, 255, 0.85)'],
-                                   [1, 'rgba(6,54,21, 0.85)']] if metric != 'pop_density' else 'cividis',
+                       colorscale='cividis',
                        hoverlabel={'namelength': 200, 'bgcolorsrc': 'blah'},
                        hovertemplate=('<b>' + df['country'] + '<b><br><br>' +
                                       metric_translation[metric] + ': ' +
